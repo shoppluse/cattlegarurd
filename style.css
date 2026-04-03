@@ -1,0 +1,224 @@
+/* =============================================================================
+   style.css – CattleGuard AI (8-Class Edition)
+   ============================================================================= */
+
+:root {
+  --primary:      #2563eb;
+  --primary-lt:   #dbeafe;
+  --success:      #16a34a;
+  --warning:      #d97706;
+  --danger:       #dc2626;
+  --bg:           #f8fafc;
+  --text:         #1e293b;
+  --muted:        #64748b;
+  --border:       #e2e8f0;
+  --r:            12px;
+  --r-lg:         18px;
+  --sh:           0 1px 3px rgba(0,0,0,.07), 0 4px 16px rgba(0,0,0,.05);
+  --sh-lg:        0 4px 6px rgba(0,0,0,.06), 0 10px 40px rgba(0,0,0,.11);
+  --tr:           .22s ease;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+body { font-family:'Inter',system-ui,sans-serif; background:var(--bg); color:var(--text); line-height:1.65; }
+img  { max-width:100%; }
+::-webkit-scrollbar { width:6px; }
+::-webkit-scrollbar-thumb { background:#cbd5e1; border-radius:99px; }
+
+/* ── NAVBAR ─────────────────────────────────────────────────────────────────── */
+#mainNav {
+  background: linear-gradient(135deg,#1e3a8a,#2563eb);
+  padding:.85rem 0;
+  box-shadow: 0 2px 10px rgba(37,99,235,.28);
+}
+.brand-icon { font-size:1.4rem; }
+.brand-text { font-size:1.2rem; font-weight:700; letter-spacing:-.02em; }
+.brand-ai   { color:#93c5fd; font-weight:400; }
+.navbar-nav .nav-link { font-weight:500; font-size:.9rem; padding:.45rem .9rem; border-radius:8px; transition:background var(--tr); }
+.navbar-nav .nav-link:hover, .navbar-nav .nav-link.active { background:rgba(255,255,255,.15); }
+
+/* ── HERO ────────────────────────────────────────────────────────────────────── */
+.hero-section {
+  padding:64px 0 56px;
+  background:linear-gradient(145deg,#eff6ff 0%,#f8fafc 55%,#f0fdf4 100%);
+  border-bottom:1px solid var(--border);
+}
+.hero-badge {
+  display:inline-flex; align-items:center;
+  background:var(--primary-lt); color:var(--primary);
+  font-size:.8rem; font-weight:600;
+  padding:.32rem .85rem; border-radius:99px; letter-spacing:.02em;
+}
+.hero-title {
+  font-size:clamp(1.9rem,3.8vw,2.8rem);
+  font-weight:800; line-height:1.15; margin-bottom:.9rem;
+}
+.hero-hl {
+  background:linear-gradient(135deg,var(--primary),#7c3aed);
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
+}
+.hero-sub  { font-size:1rem; color:var(--muted); max-width:500px; }
+.snum      { font-size:1.75rem; font-weight:800; color:var(--primary); line-height:1; }
+.slbl      { font-size:.72rem; text-transform:uppercase; letter-spacing:.06em; color:var(--muted); margin-top:.18rem; }
+.sdiv      { width:1px; background:var(--border); align-self:stretch; }
+
+/* ── UPLOAD CARD ─────────────────────────────────────────────────────────────── */
+.upload-card { border:none!important; border-radius:var(--r-lg)!important; box-shadow:var(--sh-lg)!important; }
+.upload-title { font-size:1.25rem; font-weight:700; }
+
+.drop-zone {
+  position:relative; border:2.5px dashed #94a3b8; border-radius:var(--r);
+  padding:2.2rem 1.2rem; text-align:center; cursor:pointer;
+  transition:all var(--tr); background:#f8fafc;
+  min-height:170px; display:flex; flex-direction:column;
+  align-items:center; justify-content:center;
+}
+.drop-zone:hover,.drop-zone.drag-over { border-color:var(--primary); background:var(--primary-lt); }
+.dz-icon { font-size:2.6rem; color:#94a3b8; margin-bottom:.45rem; transition:color var(--tr); }
+.drop-zone:hover .dz-icon,.drop-zone.drag-over .dz-icon { color:var(--primary); }
+.dz-title { font-weight:600; margin:0; }
+.dz-sub   { font-size:.83rem; color:var(--muted); margin:.2rem 0 0; }
+.dz-input { position:absolute;inset:0;opacity:0;width:100%;height:100%;cursor:pointer; }
+.preview-img { max-height:190px; border-radius:8px; object-fit:cover; box-shadow:var(--sh); }
+
+.fn-display {
+  display:flex; align-items:center;
+  background:#f1f5f9; border-radius:8px;
+  padding:.5rem .85rem; margin-top:.55rem; font-size:.86rem;
+}
+.btn-clear { background:none;border:none;color:#94a3b8;cursor:pointer;padding:0;line-height:1;transition:color var(--tr); }
+.btn-clear:hover { color:var(--danger); }
+
+.btn-upload {
+  padding:.72rem; font-weight:600; font-size:.97rem; border-radius:10px;
+  background:linear-gradient(135deg,var(--primary),#7c3aed);
+  border:none; box-shadow:0 4px 14px rgba(37,99,235,.28);
+  transition:all var(--tr);
+}
+.btn-upload:hover:not(:disabled) { transform:translateY(-2px); box-shadow:0 8px 20px rgba(37,99,235,.38); }
+.btn-upload:disabled { opacity:.7; }
+
+/* ── 8-DISEASE GRID ──────────────────────────────────────────────────────────── */
+.sec-title { font-size:1.85rem; font-weight:800; }
+.sec-sub   { font-size:.97rem; }
+.d-card { border-radius:var(--r-lg)!important; transition:transform var(--tr),box-shadow var(--tr); overflow:hidden; }
+.d-card:hover { transform:translateY(-3px); box-shadow:var(--sh-lg)!important; }
+.d-icon { width:100%; padding:1.5rem; font-size:2.2rem; text-align:center; }
+
+/* icon theme colours */
+.lumpy-c  { background:linear-gradient(135deg,#fee2e2,#fecaca); color:#b91c1c; }
+.fmd-c    { background:linear-gradient(135deg,#ffedd5,#fed7aa); color:#92400e; }
+.mange-c  { background:linear-gradient(135deg,#fef9c3,#fef08a); color:#713f12; }
+.derm-c   { background:linear-gradient(135deg,#ede9fe,#ddd6fe); color:#5b21b6; }
+.hlth-c   { background:linear-gradient(135deg,#dcfce7,#bbf7d0); color:#166534; }
+.ring-c   { background:linear-gradient(135deg,#fce7f3,#fbcfe8); color:#9d174d; }
+.photo-c  { background:linear-gradient(135deg,#fff7ed,#fed7aa); color:#9a3412; }
+.warts-c  { background:linear-gradient(135deg,#f0fdf4,#bbf7d0); color:#14532d; }
+
+.d-name { font-weight:700; font-size:.98rem; margin-bottom:.4rem; }
+.d-desc { font-size:.82rem; color:var(--muted); }
+.d-tags { display:flex; flex-wrap:wrap; gap:.35rem; margin-top:.7rem; }
+
+/* ── HOW IT WORKS ────────────────────────────────────────────────────────────── */
+.step-circle {
+  width:54px;height:54px;border-radius:50%;
+  background:linear-gradient(135deg,var(--primary),#7c3aed);
+  color:#fff;font-size:1.3rem;
+  display:flex;align-items:center;justify-content:center;
+  margin:0 auto; box-shadow:0 4px 14px rgba(37,99,235,.28);
+}
+.step-lbl  { font-weight:700; font-size:.92rem; }
+.step-desc { font-size:.8rem; line-height:1.5; }
+
+/* ── RESULT PAGE ─────────────────────────────────────────────────────────────── */
+.result-section { min-height:70vh; }
+.result-img { max-height:340px; object-fit:cover; width:100%; border-radius:var(--r); }
+.res-icon {
+  width:60px;height:60px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.65rem; margin-bottom:.9rem;
+}
+.ico-healthy { background:#dcfce7; color:#166534; }
+.ico-disease { background:#fee2e2; color:#b91c1c; }
+.low-icon    { background:#fef3c7; color:#d97706; }
+.res-heading { font-size:1.25rem; font-weight:700; }
+.low-heading { color:#d97706; }
+.low-msg {
+  background:#fef9c3;border-left:4px solid #facc15;
+  padding:.9rem 1.1rem;border-radius:8px;
+  font-size:.93rem;color:#713f12;
+}
+.status-badge {
+  display:inline-block;font-size:.76rem;font-weight:700;
+  padding:.28rem .75rem;border-radius:99px;margin-bottom:.45rem;letter-spacing:.04em;
+}
+.sb-healthy { background:#dcfce7;color:#166534; }
+.sb-disease { background:#fee2e2;color:#b91c1c; }
+.conf-lbl   { font-size:.83rem;color:var(--muted); }
+.rec-title  { font-weight:700;font-size:.93rem;margin-bottom:.55rem; }
+.rec-text, .rec-list { font-size:.86rem;color:var(--muted); }
+.rec-list   { padding-left:1.1rem; }
+.rec-list li { margin-bottom:.28rem; }
+.disclaimer { font-size:.76rem;color:var(--muted);background:#f8fafc;padding:.7rem .95rem;border-radius:8px; }
+
+/* Result card top-border colour per disease */
+.result-healthy { border-top:4px solid var(--success)!important; }
+.result-lumpy   { border-top:4px solid #b91c1c!important; }
+.result-fmd     { border-top:4px solid #92400e!important; }
+.result-mange   { border-top:4px solid #713f12!important; }
+.result-ring    { border-top:4px solid #9d174d!important; }
+.result-derm    { border-top:4px solid #5b21b6!important; }
+.result-photo   { border-top:4px solid #9a3412!important; }
+.result-warts   { border-top:4px solid #14532d!important; }
+.low-conf-card  { border-top:4px solid var(--warning)!important; }
+
+/* tips box */
+.tips-box  { background:#fffbeb;border-radius:10px;padding:.9rem 1.1rem; }
+.tips-title{ font-weight:600;font-size:.86rem;margin-bottom:.4rem; }
+.tips-list { font-size:.82rem;color:#78350f;padding-left:1rem;margin:0; }
+.tips-list li { margin-bottom:.22rem; }
+
+/* ── ABOUT PAGE ──────────────────────────────────────────────────────────────── */
+.page-title { font-size:1.95rem;font-weight:800; }
+.abt-card   { border-radius:var(--r-lg)!important; }
+.abt-h      { font-weight:700;font-size:1rem;margin-bottom:.75rem; }
+.cls-row    { background:#fafafa;transition:background var(--tr); }
+.cls-row:hover { background:#eff6ff; }
+.tech-pill  { background:var(--bg);transition:box-shadow var(--tr); }
+.tech-pill:hover { box-shadow:var(--sh); }
+.arch-box   {
+  background:var(--primary-lt);color:var(--primary);
+  font-weight:600;font-size:.8rem;
+  padding:.4rem .85rem;border-radius:7px;min-width:185px;text-align:center;white-space:nowrap;
+}
+.arch-arr { margin-left:90px;color:#94a3b8;font-size:1rem;line-height:1; }
+
+/* ── FOOTER ──────────────────────────────────────────────────────────────────── */
+.site-footer { background:#1e293b;color:#94a3b8;padding:1.6rem 0;margin-top:3.5rem;font-size:.86rem; }
+.site-footer strong { color:#e2e8f0; }
+.footer-sub { font-size:.78rem; }
+
+/* ── LOADING OVERLAY ─────────────────────────────────────────────────────────── */
+#loadingOverlay {
+  display:none;position:fixed;inset:0;
+  background:rgba(255,255,255,.88);backdrop-filter:blur(4px);
+  z-index:9999;flex-direction:column;align-items:center;justify-content:center;gap:1rem;
+}
+#loadingOverlay.active { display:flex; }
+.loader-ring {
+  width:52px;height:52px;
+  border:5px solid #e2e8f0;border-top-color:var(--primary);
+  border-radius:50%;animation:spin .75s linear infinite;
+}
+@keyframes spin { to { transform:rotate(360deg); } }
+.loader-text { font-weight:600;color:var(--primary);font-size:.97rem; }
+
+/* ── UTILS ───────────────────────────────────────────────────────────────────── */
+.card   { border-radius:var(--r)!important; }
+.recs   { }
+
+@media (max-width:767.98px){
+  .hero-section { padding:38px 0 32px; }
+  .hero-stats   { flex-wrap:wrap;gap:.9rem!important; }
+  .result-img   { max-height:220px; }
+}
