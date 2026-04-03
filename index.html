@@ -1,0 +1,170 @@
+{% extends "base.html" %}
+{% block title %}CattleGuard AI – Upload Image{% endblock %}
+
+{% block content %}
+
+<!-- ══ HERO ═════════════════════════════════════════════════════════════════ -->
+<section class="hero-section">
+  <div class="container">
+    <div class="row align-items-center g-5">
+
+      <!-- Left: copy -->
+      <div class="col-lg-6">
+        <div class="hero-badge mb-3">
+          <i class="bi bi-stars me-2"></i>AI-Powered Veterinary Screening — 8 Disease Classes
+        </div>
+        <h1 class="hero-title">
+          Detect Cattle<br>
+          <span class="hero-hl">Skin Diseases</span><br>
+          Instantly
+        </h1>
+        <p class="hero-sub">
+          Upload a photograph of the affected cattle. Our deep learning model
+          identifies <strong>8 conditions</strong> — from Lumpy Skin Disease
+          and FMD to Mange and Ringworm — with a confidence score in seconds.
+        </p>
+        <div class="hero-stats d-flex gap-4 mt-4">
+          <div class="stat text-center">
+            <div class="snum">8</div><div class="slbl">Disease Classes</div>
+          </div>
+          <div class="sdiv"></div>
+          <div class="stat text-center">
+            <div class="snum">75%</div><div class="slbl">Min. Confidence</div>
+          </div>
+          <div class="sdiv"></div>
+          <div class="stat text-center">
+            <div class="snum">&lt;3s</div><div class="slbl">Response Time</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: upload card -->
+      <div class="col-lg-6">
+        <div class="upload-card card shadow-lg">
+          <div class="card-body p-4 p-md-5">
+            <h2 class="upload-title mb-1">
+              <i class="bi bi-cloud-upload-fill me-2 text-primary"></i>Upload Image
+            </h2>
+            <p class="text-muted small mb-4">JPG · PNG · BMP · WEBP — max 10 MB</p>
+
+            <form action="/predict" method="POST" enctype="multipart/form-data" id="uploadForm">
+
+              <div class="drop-zone" id="dropZone">
+                <div class="dz-icon"><i class="bi bi-image-fill"></i></div>
+                <div id="dzText">
+                  <p class="dz-title">Drag &amp; drop image here</p>
+                  <p class="dz-sub">or click to browse</p>
+                </div>
+                <img id="imgPreview" src="#" alt="Preview" class="d-none preview-img"/>
+                <input type="file" name="image" id="fileInput"
+                       accept=".jpg,.jpeg,.png,.bmp,.webp"
+                       class="dz-input" required/>
+              </div>
+
+              <div id="fnDisplay" class="fn-display d-none">
+                <i class="bi bi-file-image me-2 text-primary"></i>
+                <span id="fnText"></span>
+                <button type="button" class="btn-clear ms-auto" id="clearBtn">
+                  <i class="bi bi-x-lg"></i>
+                </button>
+              </div>
+
+              <button type="submit" class="btn btn-primary btn-upload w-100 mt-3" id="submitBtn">
+                <span class="btn-label"><i class="bi bi-search me-2"></i>Analyse Image</span>
+                <span class="btn-spin d-none">
+                  <span class="spinner-border spinner-border-sm me-2"></span>Analysing…
+                </span>
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══ 8-DISEASE GRID ════════════════════════════════════════════════════════ -->
+<section class="diseases-section py-5">
+  <div class="container">
+    <h2 class="sec-title text-center mb-2">8 Detectable Conditions</h2>
+    <p class="sec-sub text-center text-muted mb-5">
+      Our MobileNetV2 model is trained to identify these cattle skin conditions.
+    </p>
+
+    <div class="row g-3">
+      {% set diseases = [
+        ("bi-exclamation-circle-fill","lumpy-c",  "Lumpy Skin Disease",
+         "Viral — nodular skin lesions, fever, reduced milk production. Transmitted by biting insects.",
+         "Viral","Notifiable"),
+        ("bi-bandaid-fill",           "fmd-c",    "Foot and Mouth Disease",
+         "Highly contagious viral infection — blisters on mouth, feet, and teats.",
+         "Viral","Notifiable"),
+        ("bi-bug-fill",               "mange-c",  "Mange",
+         "Microscopic mite infestation — intense itching, hair loss, crusted thickened skin.",
+         "Parasitic","Contagious"),
+        ("bi-droplet-half",           "derm-c",   "Dermatophilosis",
+         "Bacterial skin infection — matted crusty lesions, worsened by wet conditions.",
+         "Bacterial","Contagious"),
+        ("bi-heart-fill",             "hlth-c",   "Healthy Skin",
+         "No disease detected. Maintain vaccination, nutrition, and routine vet check-ups.",
+         "Normal","No Treatment"),
+        ("bi-asterisk",               "ring-c",   "Ringworm",
+         "Highly contagious fungal infection — circular crusty hairless patches on skin.",
+         "Fungal","Zoonotic"),
+        ("bi-sun-fill",               "photo-c",  "Photosensitization",
+         "Sunburn-like lesions on unpigmented areas from toxic plant ingestion or liver disease.",
+         "Metabolic","Systemic"),
+        ("bi-dot",                    "warts-c",  "Warts (Papillomatosis)",
+         "Bovine papillomavirus — rough cauliflower-like growths on skin and mucous membranes.",
+         "Viral","Self-limiting"),
+      ] %}
+
+      {% for icon, cls, name, desc, tag1, tag2 in diseases %}
+      <div class="col-sm-6 col-xl-3">
+        <div class="d-card card h-100 border-0 shadow-sm">
+          <div class="d-icon {{ cls }}">
+            <i class="bi {{ icon }}"></i>
+          </div>
+          <div class="card-body pt-2">
+            <h6 class="d-name">{{ name }}</h6>
+            <p class="d-desc">{{ desc }}</p>
+            <div class="d-tags">
+              <span class="badge {% if tag1 in ('Normal','Self-limiting','Metabolic') %}bg-success-subtle text-success{% else %}bg-danger-subtle text-danger{% endif %}">{{ tag1 }}</span>
+              <span class="badge bg-secondary-subtle text-secondary">{{ tag2 }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- ══ HOW IT WORKS ═══════════════════════════════════════════════════════════ -->
+<section class="how-section py-5 bg-light">
+  <div class="container">
+    <h2 class="sec-title text-center mb-5">How It Works</h2>
+    <div class="row g-4 text-center">
+      {% set steps = [
+        ("1","bi-upload","Upload Photo",
+         "Take a clear, well-lit photo of the affected cattle area and upload it."),
+        ("2","bi-aspect-ratio","Preprocessing",
+         "OpenCV resizes to 224×224 and normalises pixel values for the model."),
+        ("3","bi-diagram-3-fill","AI Analysis",
+         "MobileNetV2 transfer-learning model analyses visual patterns across 8 classes."),
+        ("4","bi-card-checklist","Result",
+         "Disease name, 75% confidence check, and care recommendations are displayed."),
+      ] %}
+      {% for num, ico, title, desc in steps %}
+      <div class="col-md-3">
+        <div class="step-circle"><i class="bi {{ ico }}"></i></div>
+        <h6 class="step-lbl mt-3">{{ title }}</h6>
+        <p class="step-desc text-muted small">{{ desc }}</p>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{% endblock %}
